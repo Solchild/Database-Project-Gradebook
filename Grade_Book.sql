@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS `GRADEBOOK`;
 CREATE TABLE `GRADEBOOK` (
     `StudentID` int(11) NOT NULL,
     `AssignmentID` int(11) NOT NULL,
-    `POINTS` int(11) DEFAULT 0 NOT NULL,
+    `Point` int(11) DEFAULT 0 NOT NULL,
     PRIMARY KEY (`StudentID`, `AssignmentID`)
 ) ENGINE=InnoDB;
 
@@ -145,6 +145,17 @@ INSERT INTO ASSIGNMENT
 VALUES
 (9, 5, 2, 80);
 
+-- Number 8: Change the percentages of the categories for a course;
+UPDATE DISTRIBUTION SET Percent = 45 WHERE CATEGORY = 'TEST';
+
+-- Number 9: Add 2 points to the score of each student on an assignment;
+UPDATE GRADEBOOK SET Point = Point + 2 WHERE AssignmentID = 9; 
+
+-- Number 10: Add 2 points just to those students whose last name contains a ‘Q’.
+UPDATE GRADEBOOK
+SET Point = Point + 2
+WHERE GRADEBOOK.StudentID = (SELECT StudentID FROM STUDENT WHERE GRADEBOOK.StudentID = 
+                             STUDENT.StudentID AND STUDENT.LastName LIKE '%Q%');
 
 -- 11
 SELECT DISTINCT pt.StudentID, st.FirstName, st.LastName, pt.CourseID,pt.AssignmentID, pt.CategoryName, pt.Points
