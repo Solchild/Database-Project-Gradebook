@@ -157,14 +157,14 @@ SET Point = Point + 2
 WHERE GRADEBOOK.StudentID = (SELECT StudentID FROM STUDENT WHERE GRADEBOOK.StudentID = 
                              STUDENT.StudentID AND STUDENT.LastName LIKE '%Q%');
 
--- 11
+-- Number 11: Compute the grade for a student 
 SELECT DISTINCT pt.StudentID, st.FirstName, st.LastName, pt.CourseID,pt.AssignmentID, pt.CategoryName, pt.Points
 FROM (
      SELECT STUDENT.StudentID, AssignmentID, FirstName, LastName, CourseID, Points
      FROM STUDENT JOIN ENROLLMENT JOIN GRADEBOOK
      WHERE STUDENT.StudentID = ENROLLMENT.StudentID
      AND STUDENT.StudentID = SCORE.StudentID) st
-jOIN
+JOIN
  (SELECT StudentID, CourseID, CategoryName, ASSIGNMENT.AssignmentID, Points
      FROM DISTRIBUTION JOIN ASSIGNMENT JOIN GRADEBOOK
      WHERE DISTRIBUTION.DistributionID = ASSIGNMENT.DistributionID
@@ -173,10 +173,7 @@ WHERE st.AssignmentID = pt.AssignmentID
 AND st.Points = pt.Points AND st.StudentID=1234;
  
  
--- -- exp
--- 
--- 
-
+-- Number 12: Compute the grade for a student, where the lowest score for a given category is dropped.
 SELECT DISTINCT pt.StudentID, st.FirstName, st.LastName, pt.CourseID,pt.AssignmentID, pt.CategoryName, pt.Points, pt.PointsPossible, pt.Percentage
 FROM (
     SELECT STUDENT.StudentID, AssignmentID, FirstName, LastName, CourseID, Points
