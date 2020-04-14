@@ -129,26 +129,28 @@ SELECT * FROM DISTRIBUTION;
 
 -- Number 4, Compute the average/highest/lowest score of an assignment;
 SELECT a.AssignmentID, avg(s.POINTS), max(s.POINTS), min(s.POINTS) 
-FROM ASSIGNMENT a, SCORE s WHERE a.AssignmentID=2 AND s.AssignmentID=a.AssignmentID;
+FROM ASSIGNMENT a, GRADEBOOK s WHERE a.AssignmentID=2 AND s.AssignmentID=a.AssignmentID;
 
 -- Number 5, List all students of a given course
 SELECT s.FirstName FROM STUDENT s WHERE s.StudentID IN (SELECT e.StudentID FROM ENROLLMENT e WHERE e.CourseID=85675);
 SELECT s.StudentID, s.FirstName FROM STUDENT s JOIN ENROLLMENT e WHERE e.CourseID = 85675 AND s.StudentID = e.StudentID;
 
 -- Number 6: List all of the students in a course and all of their scores on every assignment
-
+SELECT s.StudentID, s.FirstName, s.LastName, e.CourseID, g.AssignmentID, g.Points
+FROM STUDENT s, ENROLLMENT e, GRADEBOOK g
+WHERE s.StudentID = g.StudentId AND g.StudentID = e.StudentID AND e.CourseID = 5;
 
 
 -- 11
 SELECT DISTINCT pt.StudentID, st.FirstName, st.LastName, pt.CourseID,pt.AssignmentID, pt.CategoryName, pt.Points
 FROM (
      SELECT STUDENT.StudentID, AssignmentID, FirstName, LastName, CourseID, Points
-     FROM STUDENT JOIN ENROLLMENT JOIN SCORE
+     FROM STUDENT JOIN ENROLLMENT JOIN GRADEBOOK
      WHERE STUDENT.StudentID = ENROLLMENT.StudentID
      AND STUDENT.StudentID = SCORE.StudentID) st
 jOIN
  (SELECT StudentID, CourseID, CategoryName, ASSIGNMENT.AssignmentID, Points
-     FROM DISTRIBUTION JOIN ASSIGNMENT JOIN SCORE
+     FROM DISTRIBUTION JOIN ASSIGNMENT JOIN GRADEBOOK
      WHERE DISTRIBUTION.DistributionID = ASSIGNMENT.DistributionID
      AND ASSIGNMENT.AssignmentID = SCORE.AssignmentID) pt
 WHERE st.AssignmentID = pt.AssignmentID
@@ -162,12 +164,12 @@ AND st.Points = pt.Points AND st.StudentID=1234;
 SELECT DISTINCT pt.StudentID, st.FirstName, st.LastName, pt.CourseID,pt.AssignmentID, pt.CategoryName, pt.Points, pt.PointsPossible, pt.Percentage
 FROM (
     SELECT STUDENT.StudentID, AssignmentID, FirstName, LastName, CourseID, Points
-    FROM STUDENT JOIN ENROLLMENT JOIN SCORE
+    FROM STUDENT JOIN ENROLLMENT JOIN GRADEBOOK
     WHERE STUDENT.StudentID = ENROLLMENT.StudentID
-    AND STUDENT.StudentID = SCORE.StudentID) st
+    AND STUDENT.StudentID = GRADEBOOK.StudentID) st
 JOIN
 (SELECT StudentID, CourseID, CategoryName, ASSIGNMENT.AssignmentID, Points, ASSIGNMENT.PointsPossible, DISTRIBUTION.Percentage
-    FROM DISTRIBUTION JOIN ASSIGNMENT JOIN SCORE
+    FROM DISTRIBUTION JOIN ASSIGNMENT JOIN GRADEBOOK
     WHERE DISTRIBUTION.DistributionID = ASSIGNMENT.DistributionID
     AND ASSIGNMENT.AssignmentID = SCORE.AssignmentID) pt
 WHERE st.AssignmentID = pt.AssignmentID
