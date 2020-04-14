@@ -230,33 +230,43 @@ INSERT INTO `SCORE` VALUES(5337, 13, 0);
 INSERT INTO `SCORE` VALUES(5555, 13, 99);
 INSERT INTO `SCORE` VALUES(5337, 26, 78);
 INSERT INTO `SCORE` VALUES(5337, 28, 78);
+
+--Number 3 Show the tables with the contents that you have inserted;
+SELECT * FROM STUDENT;
+SELECT * FROM ENROLLMENT;
+SELECT * FROM COURSES;
+SELECT * FROM STUDENTSCORES;
+SELECT * FROM ASSIGNMENTS;
+SELECT * FROM DISTRIBUTION;
+
 -- Number 4, Compute the average/highest/lowest score of an assignment;
--- select a.AssignmentID, avg(s.POINTS), max(s.POINTS), min(s.POINTS) from ASSIGNMENT a, SCORE s where a.AssignmentID=2 AND s.AssignmentID=a.AssignmentID;
+SELECT a.AssignmentID, avg(s.POINTS), max(s.POINTS), min(s.POINTS) 
+FROM ASSIGNMENT a, SCORE s WHERE a.AssignmentID=2 AND s.AssignmentID=a.AssignmentID;
 
 -- Number 5, List all students of a given course
--- select s.FirstName from STUDENT s where s.StudentID in (select e.StudentID from ENROLLMENT e where e.CourseID=85675);
--- select s.StudentID, s.FirstName from STUDENT s JOIN ENROLLMENT e where e.CourseID = 85675 and s.StudentID = e.StudentID;
+SELECT s.FirstName FROM STUDENT s WHERE s.StudentID IN (SELECT e.StudentID FROM ENROLLMENT e WHERE e.CourseID=85675);
+SELECT s.StudentID, s.FirstName FROM STUDENT s JOIN ENROLLMENT e WHERE e.CourseID = 85675 AND s.StudentID = e.StudentID;
 
 -- Number 6: List all of the students in a course and all of their scores on every assignment
 
 
 
 -- 11
--- SELECT DISTINCT pt.StudentID, st.FirstName, st.LastName, pt.CourseID,pt.AssignmentID, pt.CategoryName, pt.Points
--- FROM (
---     SELECT STUDENT.StudentID, AssignmentID, FirstName, LastName, CourseID, Points
---     FROM STUDENT JOIN ENROLLMENT JOIN SCORE
---     WHERE STUDENT.StudentID = ENROLLMENT.StudentID
---     AND STUDENT.StudentID = SCORE.StudentID) st
--- JOIN
--- (SELECT StudentID, CourseID, CategoryName, ASSIGNMENT.AssignmentID, Points
---     FROM DISTRIBUTION JOIN ASSIGNMENT JOIN SCORE
---     WHERE DISTRIBUTION.DistributionID = ASSIGNMENT.DistributionID
---     AND ASSIGNMENT.AssignmentID = SCORE.AssignmentID) pt
--- WHERE st.AssignmentID = pt.AssignmentID
--- AND st.Points = pt.Points AND st.StudentID=1234;
--- 
--- 
+SELECT DISTINCT pt.StudentID, st.FirstName, st.LastName, pt.CourseID,pt.AssignmentID, pt.CategoryName, pt.Points
+FROM (
+     SELECT STUDENT.StudentID, AssignmentID, FirstName, LastName, CourseID, Points
+     FROM STUDENT JOIN ENROLLMENT JOIN SCORE
+     WHERE STUDENT.StudentID = ENROLLMENT.StudentID
+     AND STUDENT.StudentID = SCORE.StudentID) st
+jOIN
+ (SELECT StudentID, CourseID, CategoryName, ASSIGNMENT.AssignmentID, Points
+     FROM DISTRIBUTION JOIN ASSIGNMENT JOIN SCORE
+     WHERE DISTRIBUTION.DistributionID = ASSIGNMENT.DistributionID
+     AND ASSIGNMENT.AssignmentID = SCORE.AssignmentID) pt
+WHERE st.AssignmentID = pt.AssignmentID
+AND st.Points = pt.Points AND st.StudentID=1234;
+ 
+ 
 -- -- exp
 -- 
 -- 
