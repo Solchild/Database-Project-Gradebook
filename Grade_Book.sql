@@ -174,7 +174,8 @@ AND st.Points = pt.Points AND st.StudentID=1234;
  
  
 -- Number 12: Compute the grade for a student, where the lowest score for a given category is dropped.
-SELECT DISTINCT pt.StudentID, st.FirstName, st.LastName, pt.CourseID,pt.AssignmentID, pt.CategoryName, pt.Points, pt.PointsPossible, pt.Percentage
+SELECT DISTINCT pt.StudentID, st.FirstName, st.LastName, pt.CourseID,pt.AssignmentID, pt.CategoryName, 
+            pt.Points, pt.PointsPossible, pt.Percentage
 FROM (
     SELECT STUDENT.StudentID, AssignmentID, FirstName, LastName, CourseID, Points
     FROM STUDENT JOIN ENROLLMENT JOIN GRADEBOOK
