@@ -140,6 +140,11 @@ SELECT s.StudentID, s.FirstName, s.LastName, e.CourseID, g.AssignmentID, g.Point
 FROM STUDENT s, ENROLLMENT e, GRADEBOOK g
 WHERE s.StudentID = g.StudentId AND g.StudentID = e.StudentID AND e.CourseID = 5;
 
+-- Number 7: Add an assignment to a course
+INSERT INTO ASSIGNMENT
+VALUES
+(9, 5, 2, 80);
+
 
 -- 11
 SELECT DISTINCT pt.StudentID, st.FirstName, st.LastName, pt.CourseID,pt.AssignmentID, pt.CategoryName, pt.Points
